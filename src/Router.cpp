@@ -2,7 +2,7 @@
 // Created by stevijo on 28.09.16.
 //
 
-#include <controllers/HelloWorldController.h>
+#include <controllers/SongController.h>
 #include "Router.h"
 #include "controllers/HelloWorldController.h"
 
@@ -26,5 +26,5 @@ void Router::shutdown() {
 void Router::setupRoutes() {
     using namespace Net::Rest;
 
-    Routes::Get(router, "/hello", Routes::bind(&HelloWorldController::index, HelloWorldController::instance()));
+    Routes::Post(router, "/songs", Routes::bind(&SongController::create, SongController::instance()));
 }
