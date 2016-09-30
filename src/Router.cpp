@@ -4,7 +4,6 @@
 
 #include <controllers/SongController.h>
 #include "Router.h"
-#include "controllers/HelloWorldController.h"
 
 using namespace Net;
 

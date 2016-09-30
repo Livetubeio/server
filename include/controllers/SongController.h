@@ -5,8 +5,8 @@
 #ifndef LIVEPLAYLIST_SONGCONTROLLER_H
 #define LIVEPLAYLIST_SONGCONTROLLER_H
 
-#include <pistache/endpoint.h>
-#include <pistache/router.h>
+#include <endpoint.h>
+#include <router.h>
 #include "BaseController.h"
 
 using namespace Net;

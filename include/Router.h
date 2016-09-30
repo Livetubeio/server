@@ -5,8 +5,8 @@
 #ifndef LIVEPLAYLIST_ROUTER_H
 #define LIVEPLAYLIST_ROUTER_H
 
-#include <pistache/endpoint.h>
-#include <pistache/router.h>
+#include <endpoint.h>
+#include <router.h>
 
 using namespace Net;
 

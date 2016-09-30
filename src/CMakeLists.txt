@@ -8,18 +8,11 @@ set(SOURCE_FILES main.cpp
 
 add_executable(LivePlaylist ${SOURCE_FILES})
 target_link_libraries(LivePlaylist
-        google_youtube_api
-        googleapis_curl_http
-        googleapis_openssl_codec
+        ${GOOGLE_YOUTUBE_LIBRARIES}
+        ${CPR_LIBRARIES}
+        ${GOOGLE_LIBRARIES}
         jsoncpp
-        googleapis_jsoncpp
-        googleapis_http
-        googleapis_json
-        googleapis_scribes
-        googleapis_utils
-        googleapis_internal
         glog
-        curl
         ssl
         net_static
         pthread)
