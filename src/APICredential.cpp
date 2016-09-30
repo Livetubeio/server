@@ -8,10 +8,15 @@
 #include <googleapis/client/data/data_reader.h>
 #include <googleapis/client/transport/http_request.h>
 #include <APICredential.h>
+#include <cstdlib>
 
 using namespace googleapis;
 using client::DataReader;
 using client::HttpRequest;
+
+APICredential::APICredential() {
+    key = std::getenv("API_KEY");
+}
 
 const std::string APICredential::type() const {
     return "Api";

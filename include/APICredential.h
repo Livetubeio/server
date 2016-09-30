@@ -16,6 +16,7 @@ using client::HttpRequest;
 
 class APICredential : public AuthorizationCredential {
 public:
+    APICredential();
     APICredential(const std::string& key) : key(key) {}
     const std::string type() const;
     util::Status Refresh();

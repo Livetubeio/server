@@ -4,7 +4,8 @@ set(SOURCE_FILES main.cpp
         controllers/SongController.cpp
         helper.cpp
         APICredential.cpp
-        YoutubeService.cpp)
+        YoutubeService.cpp
+        AddVideoRequest.cpp)
 
 add_executable(LivePlaylist ${SOURCE_FILES})
 target_link_libraries(LivePlaylist

@@ -1,5 +1,10 @@
 add_subdirectory(google-api-cpp-client)
 add_subdirectory(pistache)
 
+set(BUILD_CPR_TESTS OFF CACHE BOOL "Don't build cpr tests")
+find_package(CURL)
+if(CURL_FOUND)
+    set(USE_SYSTEM_CURL ON CACHE BOOL "Use the system curl for faster builds")
+endif()
 set(PISTACHE_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/pistache/include CACHE INTERNAl "")
 add_subdirectory(cpr)
