@@ -1,11 +1,16 @@
 
 set(SOURCE_FILES main.cpp
         Router.cpp
-        controllers/SongController.cpp
+        controllers/VideoController.cpp
+        controllers/ChannelController.cpp
         helper.cpp
         APICredential.cpp
         YoutubeService.cpp
-        AddVideoRequest.cpp)
+        requests/BaseRequest.cpp
+        requests/AddVideoRequest.cpp
+        requests/ChangePlayerStateRequest.cpp
+        requests/ChangeActiveVideosRequest.cpp
+        )
 
 add_executable(LivePlaylist ${SOURCE_FILES})
 target_link_libraries(LivePlaylist

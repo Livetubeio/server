@@ -7,10 +7,18 @@
 
 #include <string>
 #include <json/value.h>
+#include <condition_variable>
 
-class AddVideoRequest {
+#include "BaseRequest.h"
+#include "ThreadPool.h"
+
+class AddVideoRequest : public  BaseRequest {
 public:
-    AddVideoRequest(const std::string& channel, const std::string& ytid) : channel(channel), ytid(ytid) { Init(); }
+    AddVideoRequest(const std::string& channel, const std::string& ytid) : channel(channel), ytid(ytid) {
+        threadPool.executeAsync([this]() {
+           this->Init();
+        });
+    }
     void execute();
 private:
     void Init();
@@ -18,6 +26,9 @@ private:
     std::string channel;
     Json::Value youtube;
     std::string ytid;
+    bool youtubeDone = false;
+    std::mutex mutex;
+    std::condition_variable cv;
 };
 
 

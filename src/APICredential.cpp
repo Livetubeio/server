@@ -15,7 +15,9 @@ using client::DataReader;
 using client::HttpRequest;
 
 APICredential::APICredential() {
-    key = std::getenv("API_KEY");
+    auto path = std::getenv("API_KEY");
+    if(path == NULL) return;
+    key = path;
 }
 
 const std::string APICredential::type() const {
@@ -35,6 +37,9 @@ DataReader* APICredential::MakeDataReader() const {
 }
 
 util::Status APICredential::AuthorizeRequest(HttpRequest* request) {
+    if(key.empty()) {
+        return client::StatusInternalError("API_KEY not set");
+    }
     std::stringstream ss;
     ss << request->url() << "&key=" << key;
     request->set_url(ss.str());

@@ -11,7 +11,7 @@
 
 using namespace Net;
 
-class SongController : public BaseController<SongController> {
+class VideoController : public BaseController<VideoController> {
 public:
 
     void create(const Rest::Request& request, Net::Http::ResponseWriter response);

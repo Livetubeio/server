@@ -2,7 +2,8 @@
 // Created by stevijo on 28.09.16.
 //
 
-#include <controllers/SongController.h>
+#include <controllers/VideoController.h>
+#include <controllers/ChannelController.h>
 #include "Router.h"
 
 using namespace Net;
@@ -25,5 +26,6 @@ void Router::shutdown() {
 void Router::setupRoutes() {
     using namespace Net::Rest;
 
-    Routes::Post(router, "/songs", Routes::bind(&SongController::create, SongController::instance()));
+    Routes::Post(router, "/videos", Routes::bind(&VideoController::create, VideoController::instance()));
+    Routes::Put(router, "/channels", Routes::bind(&ChannelController::update, ChannelController::instance()));
 }
