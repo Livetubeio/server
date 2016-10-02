@@ -40,7 +40,7 @@ void Router::handleOptions(const Rest::Request &request, Http::ResponseWriter re
 
     response.headers().add(
             std::make_shared<AccessControlAllowOrigin>(
-                    std::initializer_list<std::string>{"localhost","livetube.io"})
+                    std::initializer_list<std::string>{"*"})
     );
     response.headers().add(
             std::make_shared<AccessControlAllowMethods>(
