@@ -57,12 +57,4 @@ void ChannelController::update(const Rest::Request &request, Http::ResponseWrite
     }
 
     response.send(Http::Code::Ok);
-
-    // Clean up threads
-    if(changePlayerStateRequest != nullptr) {
-        changePlayerStateRequest->join();
-    }
-    if(changeActiveVideosRequest != nullptr) {
-        changeActiveVideosRequest->join();
-    }
 }

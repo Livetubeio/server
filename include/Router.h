@@ -17,12 +17,11 @@ public:
     void init(size_t thr = 2);
     void start();
     void shutdown();
+    void handleOptions(const Rest::Request& request, Http::ResponseWriter response);
 private:
     std::unique_ptr<Http::Endpoint> httpEndpoint;
     Rest::Router router;
-
     void setupRoutes();
-
 };
 
 

@@ -25,7 +25,4 @@ void VideoController::create(const Rest::Request &request, Net::Http::ResponseWr
     videoRequest.executeAsync();
 
     response.send(Http::Code::Ok);
-
-    // Clean up threads
-    videoRequest.join();
 }

@@ -17,6 +17,9 @@ public:
             thread.join();
         }
     }
+    ~ThreadPool() {
+        this->join();
+    }
     template<typename T>
     void executeAsync(T&& function) {
         threads.push_back(std::thread(function));
