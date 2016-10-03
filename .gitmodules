@@ -7,9 +7,9 @@
 [submodule "pistache"]
 	path = opt/pistache
 	url = https://github.com/Livetubeio/pistache.git
-[submodule "opt/libjwt"]
+[submodule "libjwt"]
 	path = opt/libjwt
 	url = git@github.com:Livetubeio/libjwt.git
-[submodule "opt/jansson"]
+[submodule "jansson"]
 	path = opt/jansson
 	url = https://github.com/akheron/jansson.git
