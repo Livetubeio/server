@@ -6,6 +6,8 @@ set(SOURCE_FILES main.cpp
         helper.cpp
         APICredential.cpp
         YoutubeService.cpp
+        jwt/Certificates.cpp
+        jwt/Certificate.cpp
         requests/BaseRequest.cpp
         requests/AddVideoRequest.cpp
         requests/ChangePlayerStateRequest.cpp
@@ -17,6 +19,8 @@ target_link_libraries(LivePlaylist
         ${GOOGLE_YOUTUBE_LIBRARIES}
         ${CPR_LIBRARIES}
         ${GOOGLE_LIBRARIES}
+        ${LIBJWT_LIBRARIES}
+        jansson
         jsoncpp
         glog
         ssl
