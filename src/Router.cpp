@@ -30,10 +30,13 @@ void Router::shutdown() {
 void Router::setupRoutes() {
     using namespace Net::Rest;
 
-    Routes::Post(router, "/channels/:id/videos", Routes::bind(&VideoController::create, VideoController::instance()));
-    Routes::Put(router, "/channels/:id", Routes::bind(&ChannelController::update, ChannelController::instance()));
     Routes::Options(router, "/", Routes::bind(&Router::handleOptions, this));
-    Routes::Options(router, "*", Routes::bind(&Router::handleOptions, this));
+    Routes::Options(router, "/*", Routes::bind(&Router::handleOptions, this));
+    Routes::Post(router, "/channels/:id/videos", Routes::bind(&VideoController::create, VideoController::instance()));
+    Routes::Options(router, "/channels/*/videos", Routes::bind(&Router::handleOptions, this));
+    Routes::Put(router, "/channels/:id", Routes::bind(&ChannelController::update, ChannelController::instance()));
+    Routes::Options(router, "/channels/*", Routes::bind(&Router::handleOptions, this));
+
 }
 
 void Router::handleOptions(const Rest::Request &request, Http::ResponseWriter response) {
