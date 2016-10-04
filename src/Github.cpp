@@ -53,34 +53,4 @@ bool Github::userOwnsChannel(const std::string &channel) {
 
     auto pos = find(begin(channels->second),end(channels->second),channel);
     return pos != end(channels->second);
-
-/*
-    let collections = []
-            // Fetch the user's repositories
-    $.get('https://api.github.com/user?access_token=' + this.credential.accessToken).then((userdata) => {
-            collections.push($.get(userdata.repos_url + '?access_token=' + this.credential.accessToken))
-            // Fetch the user's organizations
-            $.get(userdata.organizations_url + '?access_token=' + this.credential.accessToken).then(orgs => {
-                // Add all organization's repositories to our collection of repositories
-                orgs.forEach((org, idx) => {
-                        collections.push($.get(org.repos_url + '?access_token=' + this.credential.accessToken))
-                })
-
-                // Fetch the data from our collection
-                Promise.all(collections).then(values => {
-                        // Add all repositories
-                        this.repos = []
-                        values.forEach(repoList => {
-                            this.repos = this.repos.concat(repoList)
-                        })
-                        // Check if the user is allowed to edit the given repo
-                        if (_.find(this.repos, ({full_name}) => full_name === channel)) {
-                            resolve(true)
-                        } else {
-                            resolve(false)
-                        }
-                })
-            })
-    })
-})*/
 }
