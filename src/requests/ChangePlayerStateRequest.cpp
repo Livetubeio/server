@@ -18,7 +18,7 @@ void ChangePlayerStateRequest::execute() {
     document.SetObject();
 
     Value value;
-    value.SetString(StringRef(std::to_string(static_cast<int>(this->state)).c_str()));
+    value.SetInt(static_cast<int>(this->state));
     document.AddMember(StringRef("playerstate"), value, document.GetAllocator());
 
     StringBuffer buffer;

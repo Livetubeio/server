@@ -26,7 +26,7 @@ public:
         os << auth;
     }
 
-    NAME("X-GITHUB-AUTH")
+    NAME("x-github-auth")
 private:
     std::string auth;
 };

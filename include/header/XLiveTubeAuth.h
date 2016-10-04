@@ -26,7 +26,7 @@ public:
         os << auth;
     }
 
-    NAME("X-LIVETUBE-AUTH")
+    NAME("x-livetube-auth")
 private:
     std::string auth;
 };
