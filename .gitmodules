@@ -10,6 +10,3 @@
 [submodule "libjwt"]
 	path = opt/libjwt
 	url = git@github.com:Livetubeio/libjwt.git
-[submodule "jansson"]
-	path = opt/jansson
-	url = https://github.com/akheron/jansson.git
