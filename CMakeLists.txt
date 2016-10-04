@@ -11,6 +11,7 @@ include_directories (${GOOGLE_INCLUDE_DIRS})
 include_directories (${CPR_INCLUDE_DIRS})
 include_directories (${GOOGLE_YOUTUBE_INCLUDE_DIRS})
 include_directories (${LIBJWT_INCLUDE_DIRS})
+include_directories (${RAPIDJSON_INCLUDE_DIRS})
 find_package(gflags)
 
 add_subdirectory(src)

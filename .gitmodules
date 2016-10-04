@@ -10,3 +10,6 @@
 [submodule "libjwt"]
 	path = opt/libjwt
 	url = git@github.com:Livetubeio/libjwt.git
+[submodule "opt/rapidjson"]
+	path = opt/rapidjson
+	url = https://github.com/miloyip/rapidjson
