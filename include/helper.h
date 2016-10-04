@@ -10,15 +10,19 @@
 #include <map>
 #include <router.h>
 #include <googleapis/client/transport/http_response.h>
+#include <endpoint.h>
 
 using namespace std;
 
-struct H {
-    static vector<string> split(const string stri, char c);
+namespace H {
+    vector<string> split(const string stri, char c);
 
-    static map<string,string> parseRequest(const Net::Rest::Request&);
+    map<string,string> parseRequest(const Net::Rest::Request&);
 
-};
+    std::string base64decode(std::string string);
+
+    void addCorsHeaders(Net::Http::ResponseWriter& response);
+}
 
 
 

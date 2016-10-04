@@ -6,8 +6,11 @@ set(SOURCE_FILES main.cpp
         helper.cpp
         APICredential.cpp
         YoutubeService.cpp
-        jwt/Certificates.cpp
+        Github.cpp
+        jwt/CertificatesStore.cpp
         jwt/Certificate.cpp
+        jwt/Token.cpp
+        jwt/TokenVerifier.cpp
         requests/BaseRequest.cpp
         requests/AddVideoRequest.cpp
         requests/ChangePlayerStateRequest.cpp

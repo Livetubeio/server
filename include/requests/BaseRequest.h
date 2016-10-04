@@ -10,9 +10,9 @@
 class BaseRequest {
 public:
     void join();
-    virtual void execute() = 0;
     void executeAsync();
 protected:
+    virtual void execute() = 0;
     ThreadPool threadPool;
 };
 

@@ -14,21 +14,13 @@
 
 class AddVideoRequest : public  BaseRequest {
 public:
-    AddVideoRequest(const std::string& channel, const std::string& ytid) : channel(channel), ytid(ytid) {
-        threadPool.executeAsync([this]() {
-           this->Init();
-        });
-    }
+    AddVideoRequest(const std::string& channel, const std::string& ytid) : channel(channel), ytid(ytid) { }
+protected:
     void execute();
 private:
-    void Init();
     constexpr static const char* url = "https://livetubeio-16323.firebaseio.com/channels/";
     std::string channel;
-    Json::Value youtube;
     std::string ytid;
-    bool youtubeDone = false;
-    std::mutex mutex;
-    std::condition_variable cv;
 };
 
 

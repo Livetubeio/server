@@ -11,6 +11,7 @@
 class ChangeActiveVideosRequest : public BaseRequest {
 public:
     ChangeActiveVideosRequest(const std::string& channel, const std::string& ytid) : channel(channel), ytid(ytid) {}
+protected:
     void execute();
 private:
     std::string ytid;

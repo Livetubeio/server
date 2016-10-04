@@ -2,8 +2,8 @@
 // Created by stevijo on 03.10.16.
 //
 
-#ifndef LIVEPLAYLIST_CERTIFICATES_H
-#define LIVEPLAYLIST_CERTIFICATES_H
+#ifndef LIVEPLAYLIST_CERTIFICATESSTORE_H
+#define LIVEPLAYLIST_CERTIFICATESSTORE_H
 
 #include "jwt/Certificate.h"
 #include <string>
@@ -12,10 +12,10 @@
 #include <atomic>
 #include <condition_variable>
 
-class Certificates {
+class CertificatesStore {
 public:
-    static Certificates& instance() {
-        static Certificates certificates;
+    static CertificatesStore& instance() {
+        static CertificatesStore certificates;
         return certificates;
     }
     bool hasCertificate(const std::string& keyId);

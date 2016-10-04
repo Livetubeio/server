@@ -2,7 +2,7 @@
 // Created by stevijo on 03.10.16.
 //
 
-#include "jwt/Certificates.h"
+#include "jwt/CertificatesStore.h"
 #include "jwt/Certificate.h"
 #include <algorithm>
 #include <cpr/cpr.h>
@@ -10,7 +10,7 @@
 #include <json/value.h>
 #include <iostream>
 
-bool Certificates::hasCertificate(const std::string &keyId) {
+bool CertificatesStore::hasCertificate(const std::string &keyId) {
     using namespace rapidjson;
 
     bool result = certificates.find(keyId) != certificates.end();
@@ -31,7 +31,7 @@ bool Certificates::hasCertificate(const std::string &keyId) {
     return certificates.find(keyId) != certificates.end();
 }
 
-Certificate& Certificates::getCertificate(const std::string &keyId) {
+Certificate& CertificatesStore::getCertificate(const std::string &keyId) {
 
     std::unique_lock<std::mutex> lock(mutex);
     if(writingData) {

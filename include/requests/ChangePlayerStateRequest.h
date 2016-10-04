@@ -15,6 +15,7 @@ public:
         PAUSED = 2
     };
     ChangePlayerStateRequest(const std::string& channel, State state) : channel(channel), state(state) {}
+protected:
     void execute();
 private:
     std::string channel;

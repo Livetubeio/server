@@ -3,6 +3,8 @@
 //
 
 #include "controllers/ChannelController.h"
+#include "header/XLiveTubeAuth.h"
+#include "header/XGithubAuth.h"
 #include <rapidjson/document.h>
 #include <requests/ChangePlayerStateRequest.h>
 #include <requests/ChangeActiveVideosRequest.h>
@@ -11,6 +13,18 @@ using namespace rapidjson;
 
 void ChannelController::update(const Rest::Request &request, Http::ResponseWriter response) {
 
+    auto channel = request.param(":id").as<std::string>();
+
+    auto headers = request.headers();
+    auto token = headers.get<XLiveTubeAuth>();
+    auto github = headers.get<XGithubAuth>();
+
+    auto res = verifyAccess(channel,token->getToken(), github->getToken());
+    if(!res) {
+        response.send(Http::Code::Bad_Request);
+        return;
+    }
+
     Document document;
     document.Parse(request.body().c_str());
 
@@ -18,11 +32,6 @@ void ChannelController::update(const Rest::Request &request, Http::ResponseWrite
     std::unique_ptr<ChangePlayerStateRequest> changePlayerStateRequest;
     std::unique_ptr<ChangeActiveVideosRequest> changeActiveVideosRequest;
 
-    if(!document.IsObject() ||
-            !document.HasMember("channel") || !document["channel"].IsString()) {
-        response.send(Http::Code::Bad_Request);
-        return;
-    }
 
     if(document.HasMember("playerstate") && !document["playerstate"].IsNumber() ||
             document.HasMember("active") && !document["active"].IsString()) {
@@ -46,15 +55,23 @@ void ChannelController::update(const Rest::Request &request, Http::ResponseWrite
                 return;
             }
         }
-        changePlayerStateRequest.reset(new ChangePlayerStateRequest{document["channel"].GetString(),state});
+        changePlayerStateRequest.reset(new ChangePlayerStateRequest{channel,state});
         changePlayerStateRequest->executeAsync();
     }
 
     if(document.HasMember("active")) {
-        changeActiveVideosRequest.reset(new ChangeActiveVideosRequest{document["channel"].GetString(),
+        changeActiveVideosRequest.reset(new ChangeActiveVideosRequest{channel,
                                                                       document["active"].GetString()});
         changeActiveVideosRequest->executeAsync();
     }
 
+    H::addCorsHeaders(response);
     response.send(Http::Code::Ok);
+
+    if(changeActiveVideosRequest) {
+        changeActiveVideosRequest->join();
+    }
+    if(changePlayerStateRequest) {
+        changePlayerStateRequest->join();
+    }
 }

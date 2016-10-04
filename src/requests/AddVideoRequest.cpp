@@ -17,7 +17,9 @@ using google_youtube_api::VideosResource_ListMethod;
 using google_youtube_api::YouTubeService;
 using google_youtube_api::VideoListResponse;
 
-void AddVideoRequest::Init() {
+
+void AddVideoRequest::execute() {
+    std::cout << "initializing videoRequest" << std::endl;
 
     std::string parts = "snippet,contentDetails";
     auto credential = std::make_unique<APICredential>();
@@ -30,19 +32,10 @@ void AddVideoRequest::Init() {
 
     listMethod->ExecuteAndParseResponse(videoList.get()).IgnoreError();
 
-    youtube = videoList->Storage()["items"][0];
-    youtubeDone = true;
-    std::cout << youtube["contentDetails"] << std::endl;
-    cv.notify_all();
-    std::cout << "youtube done" << std::endl;
-}
+    auto youtube = videoList->Storage()["items"][0];
 
-void AddVideoRequest::execute() {
-    if(!youtubeDone) {
-        std::unique_lock<std::mutex> lock(mutex);
-        std::cout << "waiting async" << std::endl;
-        cv.wait(lock);
-    }
+    std::cout << "youtube done" << std::endl;
+
     std::cout << "starting Request execute" << std::endl;
 
     std::stringstream ss;
@@ -71,7 +64,6 @@ void AddVideoRequest::execute() {
     // Send Request
     auto r = cpr::Post(cpr::Url{ss.str()},cpr::Body{buffer.GetString()});
     std::cout << r.status_code << std::endl;
-
     return;
 }
 

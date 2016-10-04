@@ -5,6 +5,8 @@
 #ifndef LIVEPLAYLIST_BASECONTROLLER_H
 #define LIVEPLAYLIST_BASECONTROLLER_H
 
+#include <string>
+
 template<typename T>
 class BaseController {
 public:
@@ -15,6 +17,9 @@ public:
         }
         return _instance;
     }
+
+protected:
+    bool verifyAccess(std::string channel, std::string token, std::string githubToken);
 private:
     static T* _instance;
     class Guard {
@@ -28,5 +33,7 @@ private:
 };
 template<typename T>
 T* BaseController<T>::_instance = nullptr;
+
+#include "../../src/controllers/BaseController.cpp"
 
 #endif
