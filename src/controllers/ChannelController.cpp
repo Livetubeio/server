@@ -101,7 +101,10 @@ constexpr static const char* part3 = "</text>\n"
 void ChannelController::getBadge(const Rest::Request &request, Http::ResponseWriter response) {
     auto channel = request.param(":id").as<std::string>();
 
-    auto res = cpr::Get(cpr::Url{"https://livetubeio-16323.firebaseio.com/channels/c3Rldmlqby9kb3RmaWxlcw==/active.json"});
+    std::stringstream request1;
+    request1 << "https://livetubeio-16323.firebaseio.com/channels/" << channel << "/active.json";
+
+    auto res = cpr::Get(cpr::Url{request1.str()});
     if(res.status_code != 200) {
         response.send(Http::Code::Bad_Request);
         return;
