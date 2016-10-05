@@ -16,6 +16,8 @@ public:
 
     void create(const Rest::Request& request, Net::Http::ResponseWriter response);
 
+    void remove(const Rest::Request &request, Net::Http::ResponseWriter response);
+
 };
 
 

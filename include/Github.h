@@ -12,6 +12,8 @@
 class Github {
 public:
     Github(const std::string& token) : token(token) {}
+    void updateCache();
+    void updateCache(std::vector<std::string>& channels);
     bool userOwnsChannel(const std::string& channel);
 private:
     std::string token;

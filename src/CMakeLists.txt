@@ -3,6 +3,7 @@ set(SOURCE_FILES main.cpp
         Router.cpp
         controllers/VideoController.cpp
         controllers/ChannelController.cpp
+        controllers/LoginController.cpp
         helper.cpp
         APICredential.cpp
         YoutubeService.cpp
@@ -13,8 +14,8 @@ set(SOURCE_FILES main.cpp
         jwt/TokenVerifier.cpp
         requests/BaseRequest.cpp
         requests/AddVideoRequest.cpp
-        requests/ChangePlayerStateRequest.cpp
-        requests/ChangeActiveVideosRequest.cpp
+        requests/UpdateChannelRequest.cpp
+        requests/DeleteVideoRequest.cpp
         )
 
 add_executable(LivePlaylist ${SOURCE_FILES})

@@ -17,6 +17,8 @@ public:
 
     void update(const Rest::Request& request, Http::ResponseWriter response);
 
+    void getBadge(const Rest::Request& request, Http::ResponseWriter response);
+
 };
 
 

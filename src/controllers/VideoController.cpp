@@ -6,6 +6,7 @@
 #include "header/XLiveTubeAuth.h"
 #include "header/XGithubAuth.h"
 #include "requests/AddVideoRequest.h"
+#include "requests/DeleteVideoRequest.h"
 #include "controllers/VideoController.h"
 #include "jwt/Token.h"
 #include <rapidjson/document.h>
@@ -45,4 +46,27 @@ void VideoController::create(const Rest::Request &request, Net::Http::ResponseWr
     response.send(Http::Code::Ok);
 
     videoRequest.join();
+}
+
+void VideoController::remove(const Rest::Request &request, Net::Http::ResponseWriter response) {
+    auto channel = request.param(":id").as<std::string>();
+    auto video = request.param(":video").as<std::string>();
+
+    auto headers = request.headers();
+    auto token = headers.get<XLiveTubeAuth>();
+    auto github = headers.get<XGithubAuth>();
+
+    auto res = verifyAccess(channel,token->getToken(),github->getToken());
+    if(!res){
+        response.send(Http::Code::Bad_Request);
+        return;
+    }
+
+    DeleteVideoRequest deleteVideoRequest{channel,video};
+    deleteVideoRequest.executeAsync();
+
+    response.send(Http::Code::Ok);
+
+    deleteVideoRequest.join();
+
 }

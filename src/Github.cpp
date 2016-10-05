@@ -7,8 +7,9 @@
 #include <rapidjson/document.h>
 #include <algorithm>
 #include <iostream>
+#include <unordered_map>
 
-std::map<std::string,std::vector<std::string>> channelMap{};
+std::unordered_map<std::string,std::vector<std::string>> channelMap{};
 
 bool Github::userOwnsChannel(const std::string &channel) {
     using namespace rapidjson;
@@ -24,8 +25,21 @@ bool Github::userOwnsChannel(const std::string &channel) {
         auto it = channelMap.insert(std::pair<std::string,std::vector<std::string>>(token, std::vector<std::string>()));
         channels = it.first;
     }
+
+    updateCache(channels->second);
+
+    auto pos = find(begin(channels->second),end(channels->second),channel);
+    return pos != end(channels->second);
+}
+
+
+
+void Github::updateCache(std::vector<std::string>& channels) {
+    using namespace rapidjson;
+
+
     auto result = cpr::Get(cpr::Url{"https://api.github.com/user"},
-             cpr::Parameters{{"access_token",token}});
+                           cpr::Parameters{{"access_token",token}});
     Document userData;
     userData.Parse(result.text.c_str());
     result = cpr::Get(cpr::Url{userData["repos_url"].GetString()},cpr::Parameters{{"access_token", token}});
@@ -35,7 +49,7 @@ bool Github::userOwnsChannel(const std::string &channel) {
 
     auto repoArray = repos.GetArray();
     for(auto& value:repoArray) {
-        channels->second.push_back(value.GetObject()["full_name"].GetString());
+        channels.push_back(value.GetObject()["full_name"].GetString());
     }
 
     result = cpr::Get(cpr::Url{userData["organizations_url"].GetString()},cpr::Parameters{{"access_token", token}});
@@ -47,10 +61,22 @@ bool Github::userOwnsChannel(const std::string &channel) {
         Document org;
         org.Parse(result.text.c_str());
         for(auto& repo:org.GetArray()) {
-            channels->second.push_back(repo.GetObject()["full_name"].GetString());
+            channels.push_back(repo.GetObject()["full_name"].GetString());
         }
     }
 
-    auto pos = find(begin(channels->second),end(channels->second),channel);
-    return pos != end(channels->second);
+
+}
+
+void Github::updateCache() {
+    auto channels = channelMap.find(token);
+    if(channels != end(channelMap)) {
+        std::cout << "vector existing" << std::endl;
+        channels->second = std::vector<std::string>();
+    } else {
+        auto it = channelMap.insert(std::pair<std::string,std::vector<std::string>>(token, std::vector<std::string>()));
+        channels = it.first;
+    }
+
+    updateCache(channels->second);
 }
