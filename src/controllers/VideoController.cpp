@@ -65,6 +65,7 @@ void VideoController::remove(const Rest::Request &request, Net::Http::ResponseWr
     DeleteVideoRequest deleteVideoRequest{channel,video};
     deleteVideoRequest.executeAsync();
 
+    H::addCorsHeaders(response);
     response.send(Http::Code::Ok);
 
     deleteVideoRequest.join();

@@ -14,5 +14,6 @@ void LoginController::login(const Rest::Request& request, Http::ResponseWriter r
     Github cache(github->getToken());
     cache.updateCache();
 
+    H::addCorsHeaders(response);
     response.send(Http::Code::Ok);
 }

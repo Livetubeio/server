@@ -128,5 +128,6 @@ void ChannelController::getBadge(const Rest::Request &request, Http::ResponseWri
     std::stringstream ss;
     ss << part1 << youtube["snippet"]["title"].asCString() << part2 << youtube["snippet"]["title"].asCString() << part3;
 
+    H::addCorsHeaders(response);
     response.send(Http::Code::Ok,ss.str(),MIME(Image,Svg));
 }
