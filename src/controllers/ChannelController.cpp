@@ -11,6 +11,7 @@
 #include <google/youtube_api/you_tube_service.h>
 #include <rapidjson/document.h>
 #include <cpr/cpr.h>
+#include <chrono>
 
 using namespace rapidjson;
 using google_youtube_api::VideosResource_ListMethod;
@@ -39,7 +40,9 @@ void ChannelController::update(const Rest::Request &request, Http::ResponseWrite
 
 
     if(document.HasMember("playerstate") && !document["playerstate"].IsNumber() ||
-            document.HasMember("active") && !document["active"].IsString()) {
+            document.HasMember("active") && !document["active"].IsString() ||
+            document.HasMember("video_time") && !document["video_time"].IsInt() ||
+            document.HasMember("changed_at") && !document["changed_at"].IsInt64()) {
         response.send(Http::Code::Bad_Request);
         return;
     }
@@ -65,6 +68,14 @@ void ChannelController::update(const Rest::Request &request, Http::ResponseWrite
 
     if(document.HasMember("active")) {
         updateChannelRequest.setActive(document["active"].GetString());
+    }
+
+    if(document.HasMember("changed_at")) {
+        updateChannelRequest.setChangedAt(document["changed_at"].GetInt64());
+    }
+
+    if(document.HasMember("video_time")) {
+        updateChannelRequest.setVideoTime(document["video_time"].GetInt());
     }
 
     updateChannelRequest.executeAsync();
@@ -125,6 +136,10 @@ void ChannelController::getBadge(const Rest::Request &request, Http::ResponseWri
     std::unique_ptr<VideoListResponse> videoList(VideoListResponse::New());
 
     listMethod->ExecuteAndParseResponse(videoList.get()).IgnoreError();
+    if(!videoList->has_items()) {
+        response.send(Http::Code::Internal_Server_Error);
+        return;
+    }
 
     auto youtube = videoList->Storage()["items"][0];
 
@@ -133,4 +148,95 @@ void ChannelController::getBadge(const Rest::Request &request, Http::ResponseWri
 
     H::addCorsHeaders(response);
     response.send(Http::Code::Ok,ss.str(),MIME(Image,Svg));
+}
+
+void ChannelController::updateVideo(const Rest::Request &request, Http::ResponseWriter response) {
+
+    // Lock function so only 1 request uses cpu
+    std::lock_guard<std::mutex> lock(mutex);
+    auto ms = std::chrono::duration_cast< std::chrono::milliseconds >(
+            std::chrono::system_clock::now().time_since_epoch()
+    );
+    if(ms.count() - lastChange.count() < 3000) {
+        response.send(Http::Code::Bad_Request);
+        return;
+    }
+    auto channel = request.param(":id").as<std::string>();
+
+    std::stringstream url;
+    url << "https://livetubeio-16323.firebaseio.com/channels/" << channel << ".json";
+    auto res = cpr::Get(cpr::Url{url.str()});
+    if(res.status_code != 200) {
+        response.send(Http::Code::Bad_Request);
+        return;
+    }
+    Document document;
+    document.Parse(res.text.c_str());
+
+    if(!document.HasMember("videos") || !document["videos"].IsObject() ||
+            !document.HasMember("changed_at") || !document["changed_at"].IsInt64() ||
+            !document.HasMember("video_time") || !document["video_time"].IsInt() ||
+            !document.HasMember("active") || !document["active"].IsString()) {
+        response.send(Http::Code::Bad_Request);
+        return;
+    }
+
+    // Variable Initialization
+    ms = std::chrono::duration_cast< std::chrono::milliseconds >(
+            std::chrono::system_clock::now().time_since_epoch()
+    );
+    auto changedAt = document["changed_at"].GetInt64();
+    auto videoTime = document["video_time"].GetInt();
+    auto offset = ms.count() - changedAt + videoTime;
+    auto active = document["active"].GetString();
+    auto it = document["videos"].GetObject().MemberBegin();
+    auto end = document["video"].GetObject().MemberEnd();
+    auto start = it;
+
+    // Get active Startpoint
+    for(;;it++) {
+        if(it->name.GetString() == active) {
+            break;
+        }
+    }
+
+    offset -= H::getSecondsFromYoutubeTime(it->value.GetObject()["length"].GetString())*1000;
+    if(offset < 3000) {
+        // Still playing current song
+        response.send(Http::Code::Bad_Request);
+        return;
+    }
+    it++;
+
+    // 3 seconds buffer
+    while(offset > 3000) {
+        if(it != end) {
+            auto& video = *it;
+            // length in ms
+            auto length = H::getSecondsFromYoutubeTime(video.value.GetObject()["length"].GetString())*1000;
+            offset -= length;
+            if(offset < 3000)
+            it++;
+        } else {
+            it = start;
+        }
+    }
+
+    // decided on new video create a request
+    ms = std::chrono::duration_cast< std::chrono::milliseconds >(
+            std::chrono::system_clock::now().time_since_epoch()
+    );
+    UpdateChannelRequest channelRequest{channel};
+    channelRequest.setChangedAt(ms.count());
+    if(offset < 0) {
+        channelRequest.setVideoTime(static_cast<int>(offset*-1));
+    }
+    channelRequest.setActive(it->name.GetString());
+    channelRequest.executeAsync();
+    // Hacky synchronization
+    channelRequest.join();
+
+    H::addCorsHeaders(response);
+    response.send(Http::Code::Ok);
+
 }

@@ -7,6 +7,7 @@
 #include "header/AccessControlAllowMethods.h"
 #include "header/AccessControlMaxAge.h"
 #include "header/AccessControlAllowHeaders.h"
+#include <regex>
 #include <algorithm>
 #include <openssl/pem.h>
 
@@ -97,6 +98,52 @@ namespace H {
                         std::initializer_list<std::string>{"X-LIVETUBE-AUTH","X-GITHUB-AUTH"}
                 )
         );
+    }
+
+    long getSecondsFromYoutubeTime(std::string youtubeTime) {
+        std::smatch match;
+        std::vector<std::string> matches;
+        auto s = youtubeTime;
+        std::regex e("[[:digit:]]+");
+        while(std::regex_search(s,match,e)) {
+            for(auto m:match) {
+                matches.push_back(m);
+            }
+            s = match.suffix().str();
+        }
+        auto posH = youtubeTime.find('H');
+        auto posM = youtubeTime.find('M');
+        auto posS = youtubeTime.find('S');
+
+        if(posM != std::string::npos && posH == std::string::npos && posS == std::string::npos) {
+            return std::stoi(matches[0])*60;
+        }
+
+        if(posH != std::string::npos && posM == std::string::npos && posS == std::string::npos) {
+            return std::stoi(matches[0])*3600;
+        }
+
+        if(posH != std::string::npos && posM != std::string::npos && posS == std::string::npos) {
+            return std::stoi(matches[0])*3600+std::stoi(matches[1])*60;
+        }
+
+        if(posH != std::string::npos && posM == std::string::npos) {
+            return std::stoi(matches[0])*3600+std::stoi(matches[1]);
+        }
+
+        if(matches.size() == 3) {
+            return std::stoi(matches[0])*3600+std::stoi(matches[1])*60+std::stoi(matches[2]);
+        }
+
+        if(matches.size() == 2) {
+            return std::stoi(matches[0])*60+std::stoi(matches[1]);
+        }
+
+        if(matches.size() == 1) {
+            return std::stoi(matches[0]);
+        }
+
+        return 0;
     }
 
 }

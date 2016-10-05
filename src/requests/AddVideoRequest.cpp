@@ -17,7 +17,6 @@ using google_youtube_api::VideosResource_ListMethod;
 using google_youtube_api::YouTubeService;
 using google_youtube_api::VideoListResponse;
 
-
 void AddVideoRequest::execute() {
     std::cout << "initializing videoRequest" << std::endl;
 
@@ -32,11 +31,11 @@ void AddVideoRequest::execute() {
 
     listMethod->ExecuteAndParseResponse(videoList.get()).IgnoreError();
 
+    if(!videoList->has_items()) {
+        return;
+    }
+
     auto youtube = videoList->Storage()["items"][0];
-
-    std::cout << "youtube done" << std::endl;
-
-    std::cout << "starting Request execute" << std::endl;
 
     std::stringstream ss;
     ss << AddVideoRequest::url << this->channel << "/videos.json";
@@ -64,6 +63,5 @@ void AddVideoRequest::execute() {
     // Send Request
     auto r = cpr::Post(cpr::Url{ss.str()},cpr::Body{buffer.GetString()});
     std::cout << r.status_code << std::endl;
-    return;
 }
 

@@ -22,6 +22,8 @@ namespace H {
     std::string base64decode(std::string string);
 
     void addCorsHeaders(Net::Http::ResponseWriter& response);
+
+    long getSecondsFromYoutubeTime(std::string youtubeTime);
 }
 
 

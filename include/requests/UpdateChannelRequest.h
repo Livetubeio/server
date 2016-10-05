@@ -17,6 +17,8 @@ public:
     UpdateChannelRequest(const std::string& channel) : channel(channel) {}
     void setActive(const std::string& active);
     void setState(const State& state);
+    void setChangedAt(long changedAt);
+    void setVideoTime(int time);
 protected:
     void execute();
 private:
@@ -25,6 +27,10 @@ private:
     bool hasActive = false;
     State state;
     bool hasState = false;
+    int videoTime;
+    bool hasVideoTime = false;
+    long changedAt;
+    bool hasChangedAt = false;
     constexpr static const char* url = "https://livetubeio-16323.firebaseio.com/channels/";
 };
 

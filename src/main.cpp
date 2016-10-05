@@ -1,6 +1,7 @@
 #include <iostream>
 #include <endpoint.h>
 #include <glog/logging.h>
+#include "helper.h"
 #include "Router.h"
 
 int main(int argc, char **argv) {

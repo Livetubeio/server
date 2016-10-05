@@ -42,6 +42,7 @@ void Router::setupRoutes() {
     Routes::Options(router, "/*", Routes::bind(&Router::handleOptions, this));
 
     Routes::Get(router, "/channels/:id", Routes::bind(&ChannelController::getBadge, ChannelController::instance()));
+    Routes::Post(router, "/channels/:id/update", Routes::bind(&ChannelController::updateVideo, ChannelController::instance()));
     Routes::Put(router, "/channels/:id", Routes::bind(&ChannelController::update, ChannelController::instance()));
     Routes::Options(router, "/channels/*", Routes::bind(&Router::handleOptions, this));
 
