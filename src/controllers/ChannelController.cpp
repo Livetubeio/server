@@ -124,20 +124,22 @@ void ChannelController::getBadge(const Rest::Request &request, Http::ResponseWri
     Document document;
     document.Parse(res.text.c_str());
 
-    if(!document.HasMember("active") || !document["active"].IsString() ||
+    if(!document.IsObject() || !document.HasMember("active") || !document["active"].IsString() ||
             !document.HasMember("videos") || !document["videos"].IsObject()) {
         response.send(Http::Code::Bad_Request);
         return;
     }
 
     auto activeString = document["active"].GetString();
-
+    std::cout << activeString << std::endl;
     auto ytid = document["videos"].GetObject()[activeString].GetObject()["ytid"].GetString();
 
     std::string parts = "snippet";
     auto credential = std::make_unique<APICredential>();
     std::unique_ptr<VideosResource_ListMethod> listMethod(
             YoutubeService::service()->get_videos().NewListMethod(credential.get(), parts));
+
+
 
     listMethod->set_id(ytid);
 
@@ -184,7 +186,7 @@ void ChannelController::updateVideo(const Rest::Request &request, Http::Response
     Document document;
     document.Parse(res.text.c_str());
 
-    if(!document.HasMember("videos") || !document["videos"].IsObject() ||
+    if(!document.IsObject() || !document.HasMember("videos") || !document["videos"].IsObject() ||
             !document.HasMember("changed_at") || !document["changed_at"].IsInt64() ||
             !document.HasMember("video_time") || !document["video_time"].IsInt() ||
             !document.HasMember("active") || !document["active"].IsString()) {
