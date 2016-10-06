@@ -39,7 +39,7 @@ void ChannelController::update(const Rest::Request &request, Http::ResponseWrite
     UpdateChannelRequest updateChannelRequest{channel};
 
 
-    if(document.HasMember("playerstate") && !document["playerstate"].IsNumber() ||
+    if(!document.IsObject() || document.HasMember("playerstate") && !document["playerstate"].IsNumber() ||
             document.HasMember("active") && !document["active"].IsString() ||
             document.HasMember("video_time") && !document["video_time"].IsInt() ||
             document.HasMember("changed_at") && !document["changed_at"].IsInt64()) {
