@@ -11,12 +11,13 @@
 
 class Github {
 public:
-    Github(const std::string& token) : token(token) {}
+    Github(const std::string& token, const std::string& uid) : token(token), uid(uid) {}
     void updateCache();
     void updateCache(std::vector<std::string>& channels);
     bool userOwnsChannel(const std::string& channel);
 private:
     std::string token;
+    std::string uid;
 };
 
 

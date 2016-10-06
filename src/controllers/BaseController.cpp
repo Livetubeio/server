@@ -10,7 +10,7 @@ bool BaseController<T>::verifyAccess(std::string channel, std::string token, std
     if(!isValid) {
         return false;
     }
-    Github githubAuth(githubToken);
+    Github githubAuth(githubToken,jwtToken.getGrant("sub"));
     auto res = githubAuth.userOwnsChannel(H::base64decode(channel));
     if(!res) {
         return false;

@@ -14,7 +14,7 @@ std::unordered_map<std::string,std::vector<std::string>> channelMap{};
 bool Github::userOwnsChannel(const std::string &channel) {
     using namespace rapidjson;
 
-    auto channels = channelMap.find(token);
+    auto channels = channelMap.find(uid);
     if(channels != end(channelMap)) {
         std::cout << "vector existing" << std::endl;
         auto pos = find(begin(channels->second),end(channels->second),channel);
@@ -22,7 +22,7 @@ bool Github::userOwnsChannel(const std::string &channel) {
             return true;
         }
     } else {
-        auto it = channelMap.insert(std::pair<std::string,std::vector<std::string>>(token, std::vector<std::string>()));
+        auto it = channelMap.insert(std::pair<std::string,std::vector<std::string>>(uid, std::vector<std::string>()));
         channels = it.first;
     }
 
@@ -69,12 +69,12 @@ void Github::updateCache(std::vector<std::string>& channels) {
 }
 
 void Github::updateCache() {
-    auto channels = channelMap.find(token);
+    auto channels = channelMap.find(uid);
     if(channels != end(channelMap)) {
         std::cout << "vector existing" << std::endl;
         channels->second = std::vector<std::string>();
     } else {
-        auto it = channelMap.insert(std::pair<std::string,std::vector<std::string>>(token, std::vector<std::string>()));
+        auto it = channelMap.insert(std::pair<std::string,std::vector<std::string>>(uid, std::vector<std::string>()));
         channels = it.first;
     }
 
