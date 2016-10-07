@@ -11,7 +11,7 @@ std::string Certificate::getPubKey() {
     X509* cert;
     EVP_PKEY* pkey;
     write = BIO_new(BIO_s_mem());
-    char* buffer[certificate.size()];
+    char buffer[certificate.size()];
     strncpy(buffer,certificate.c_str(),certificate.size());
     bio = BIO_new_mem_buf(buffer,static_cast<int>(certificate.size()));
 
