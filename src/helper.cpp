@@ -67,7 +67,9 @@ namespace H {
         }
 
         BIO *bmem,*b64;
-        bmem = BIO_new_mem_buf(string.c_str(),static_cast<int>(string.size()));
+        char buffer[string.size()];
+        strncpy(buffer,string.c_str(),string.size());
+        bmem = BIO_new_mem_buf(buffer,static_cast<int>(string.size()));
         b64 = BIO_new(BIO_f_base64());
         BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
         BIO_push(b64, bmem);

@@ -4,13 +4,16 @@
 
 #include "jwt/Certificate.h"
 #include <openssl/pem.h>
+#include <cstring>
 
 std::string Certificate::getPubKey() {
     BIO *bio, *write;
     X509* cert;
     EVP_PKEY* pkey;
     write = BIO_new(BIO_s_mem());
-    bio = BIO_new_mem_buf(certificate.c_str(),static_cast<int>(certificate.size()));
+    auto buffer[certificate.size()];
+    strncpy(buffer,certificate.c_str(),certificate.size());
+    bio = BIO_new_mem_buf(buffer,static_cast<int>(certificate.size()));
 
     cert = PEM_read_bio_X509(bio,0,0,0);
     if(!cert) {
