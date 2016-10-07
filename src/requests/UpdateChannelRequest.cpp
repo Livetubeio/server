@@ -47,7 +47,6 @@ void UpdateChannelRequest::execute() {
     document.Accept(writer);
 
     auto r = cpr::Patch(cpr::Url{ss.str()},cpr::Body{buffer.GetString()});
-    std::cout << r.status_code << std::endl;
 }
 
 void UpdateChannelRequest::setState(const UpdateChannelRequest::State &state) {

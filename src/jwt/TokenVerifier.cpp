@@ -40,7 +40,6 @@ bool TokenVerifier::verify() {
                           static_cast<int>(pubKey.size()));
 
     if(res > 0) {
-        std::cout << "no valid pubkey" << std::endl;
         return false;
     }
 
@@ -56,7 +55,6 @@ bool TokenVerifier::verify() {
     auto sub = std::string(jwt_get_grant(jwt_token,"sub"));
 
     if(exp <= currentTime) {
-        std::cout << "expired" << std::endl;
         jwt_free(jwt_token);
         jwt_token = NULL;
         return false;

@@ -18,7 +18,7 @@ using google_youtube_api::YouTubeService;
 using google_youtube_api::VideoListResponse;
 
 void AddVideoRequest::execute() {
-    std::cout << "initializing videoRequest" << std::endl;
+    using namespace rapidjson;
 
     std::string parts = "snippet,contentDetails";
     auto credential = std::make_unique<APICredential>();
@@ -41,27 +41,25 @@ void AddVideoRequest::execute() {
     ss << AddVideoRequest::url << this->channel << "/videos.json";
 
     // Generate JSON
-    rapidjson::Document root;
+    Document root;
 
     auto& allocator = root.GetAllocator();
     root.SetObject();
 
-    rapidjson::Value title, youtid, length;
-    title.SetString(rapidjson::StringRef(youtube["snippet"]["title"].asCString()));
-    length.SetString(rapidjson::StringRef(youtube["contentDetails"]["duration"].asCString()));
-    youtid.SetString(rapidjson::StringRef(ytid.c_str()));
-    root.AddMember(rapidjson::StringRef("title"), title , allocator);
-    root.AddMember(rapidjson::StringRef("length"), length, allocator);
-    root.AddMember(rapidjson::StringRef("ytid"), youtid, allocator);
+    Value title, youtid, length;
+    title.SetString(StringRef(youtube["snippet"]["title"].asCString()));
+    length.SetString(StringRef(youtube["contentDetails"]["duration"].asCString()));
+    youtid.SetString(StringRef(ytid.c_str()));
+    root.AddMember(StringRef("title"), title , allocator);
+    root.AddMember(StringRef("length"), length, allocator);
+    root.AddMember(StringRef("ytid"), youtid, allocator);
 
     // Printing Json
-    rapidjson::StringBuffer buffer;
-    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+    StringBuffer buffer;
+    Writer<StringBuffer> writer(buffer);
     root.Accept(writer);
-    std::cout << buffer.GetString() << std::endl;
 
     // Send Request
     auto r = cpr::Post(cpr::Url{ss.str()},cpr::Body{buffer.GetString()});
-    std::cout << r.status_code << std::endl;
 }
 

@@ -16,7 +16,6 @@ bool Github::userOwnsChannel(const std::string &channel) {
 
     auto channels = channelMap.find(uid);
     if(channels != end(channelMap)) {
-        std::cout << "vector existing" << std::endl;
         auto pos = find(begin(channels->second),end(channels->second),channel);
         if(pos != end(channels->second)) {
             return true;
@@ -71,7 +70,6 @@ void Github::updateCache(std::vector<std::string>& channels) {
 void Github::updateCache() {
     auto channels = channelMap.find(uid);
     if(channels != end(channelMap)) {
-        std::cout << "vector existing" << std::endl;
         channels->second = std::vector<std::string>();
     } else {
         auto it = channelMap.insert(std::pair<std::string,std::vector<std::string>>(uid, std::vector<std::string>()));

@@ -16,7 +16,6 @@ bool CertificatesStore::hasCertificate(const std::string &keyId) {
     bool result = certificates.find(keyId) != certificates.end();
     if(result) return true;
 
-    std::cout << "get certificates from google" << std::endl;
     auto r = cpr::Get(cpr::Url{"https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com"});
     Document document;
     document.Parse(r.text.c_str());
