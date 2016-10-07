@@ -1,15 +1,15 @@
 [submodule "cpr"]
 	path = opt/cpr
-	url = git@github.com:whoshuu/cpr.git
+	url = https://github.com/whoshuu/cpr.git
 [submodule "google-api-cpp-client"]
 	path = opt/google-api-cpp-client
-	url = git@github.com:Livetubeio/google-api-cpp-client.git
+	url = https://github.com/Livetubeio/google-api-cpp-client.git
 [submodule "pistache"]
 	path = opt/pistache
 	url = https://github.com/Livetubeio/pistache.git
 [submodule "libjwt"]
 	path = opt/libjwt
-	url = git@github.com:Livetubeio/libjwt.git
+	url = https://github.com/Livetubeio/libjwt.git
 [submodule "opt/rapidjson"]
 	path = opt/rapidjson
 	url = https://github.com/miloyip/rapidjson

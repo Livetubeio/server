@@ -1,6 +1,6 @@
 # Livetube IO Server
 
-[![Current Song](https://livetubeio-16323.appspot.com/channels/TGl2ZXR1YmVpby9zZXJ2ZXI=)](https://livetube.io/Livetubeio/server)
+[![Current Song](https://livetubeio-16323.appspot.com/channels/TGl2ZXR1YmVpby9zZXJ2ZXI=)](https://livetube.io/Livetubeio/server) [![Build Status](https://travis-ci.org/Livetubeio/server.svg?branch=master)](https://travis-ci.org/Livetubeio/server)
 
 Remote control & sync
 YouTube videos
