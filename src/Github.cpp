@@ -36,16 +36,23 @@ bool Github::userOwnsChannel(const std::string &channel) {
 void Github::updateCache(std::vector<std::string>& channels) {
     using namespace rapidjson;
 
-
     auto result = cpr::Get(cpr::Url{"https://api.github.com/user"},
                            cpr::Parameters{{"access_token",token}});
+
     Document userData;
     userData.Parse(result.text.c_str());
+    if(!userData.IsObject() || !userData.HasMember("repos_url") ||
+            !userData["repos_url"].IsString()) {
+        return;
+    }
     result = cpr::Get(cpr::Url{userData["repos_url"].GetString()},cpr::Parameters{{"access_token", token}});
 
     Document repos;
     repos.Parse(result.text.c_str());
 
+    if(!repos.IsArray()) {
+        return;
+    }
     auto repoArray = repos.GetArray();
     for(auto& value:repoArray) {
         channels.push_back(value.GetObject()["full_name"].GetString());
@@ -54,6 +61,9 @@ void Github::updateCache(std::vector<std::string>& channels) {
     result = cpr::Get(cpr::Url{userData["organizations_url"].GetString()},cpr::Parameters{{"access_token", token}});
     Document orgs;
     orgs.Parse(result.text.c_str());
+    if(!orgs.IsArray()) {
+        return;
+    }
 
     for(auto& value:orgs.GetArray()) {
         result = cpr::Get(cpr::Url{value.GetObject()["repos_url"].GetString()},cpr::Parameters{{"access_token", token}});

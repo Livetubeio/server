@@ -2,6 +2,7 @@
 #include "../../include/jwt/Token.h"
 #include "../../include/Github.h"
 #include "../../include/helper.h"
+#include <iostream>
 
 template<typename T>
 bool BaseController<T>::verifyAccess(std::string channel, std::string token, std::string githubToken) {
