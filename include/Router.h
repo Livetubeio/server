@@ -18,6 +18,7 @@ public:
     void start();
     void shutdown();
     void handleOptions(const Rest::Request& request, Http::ResponseWriter response);
+    void serverTime(const Rest::Request& request, Http::ResponseWriter response);
 private:
     std::unique_ptr<Http::Endpoint> httpEndpoint;
     Rest::Router router;

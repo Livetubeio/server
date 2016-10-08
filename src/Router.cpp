@@ -9,6 +9,10 @@
 #include "header/XLiveTubeAuth.h"
 #include "Router.h"
 
+#include <rapidjson/document.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/writer.h>
+
 using namespace Net;
 
 void Router::init(size_t thr) {
@@ -37,6 +41,8 @@ void Router::setupRoutes() {
     Routes::Delete(router,"/channels/:id/videos/:video", Routes::bind(&VideoController::remove, VideoController::instance()));
     Routes::Options(router,"/channels/*/videos/*", Routes::bind(&Router::handleOptions, this));
 
+    Routes::Get(router, "/servertime", Routes::bind(&Router::serverTime, this));
+
     Routes::Post(router, "/login", Routes::bind(&LoginController::login, LoginController::instance()));
     Routes::Options(router, "/", Routes::bind(&Router::handleOptions, this));
     Routes::Options(router, "/*", Routes::bind(&Router::handleOptions, this));
@@ -53,4 +59,27 @@ void Router::handleOptions(const Rest::Request &request, Http::ResponseWriter re
 
     H::addCorsHeaders(response);
     response.send(Http::Code::Ok);
+}
+
+void Router::serverTime(const Rest::Request &request, Http::ResponseWriter response) {
+    using namespace rapidjson;
+
+    auto timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()
+    );
+
+    Document document;
+
+    Value value;
+    value.SetInt64(timestamp.count());
+
+    document.SetObject();
+    document.AddMember(StringRef("timestamp"),value,document.GetAllocator());
+
+    StringBuffer stringBuffer;
+    Writer<StringBuffer> writer(stringBuffer);
+    document.Accept(writer);
+
+    H::addCorsHeaders(response);
+    response.send(Http::Code::Ok, stringBuffer.GetString());
 }
