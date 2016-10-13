@@ -78,7 +78,6 @@ void ChannelController::update(const Rest::Request &request, Http::ResponseWrite
 
     updateChannelRequest.executeAsync();
 
-    H::addCorsHeaders(response);
     response.send(Http::Code::Ok);
 
     updateChannelRequest.join();
@@ -155,7 +154,6 @@ void ChannelController::getBadge(const Rest::Request &request, Http::ResponseWri
     std::stringstream ss;
     ss << part1 << youtube["snippet"]["title"].asCString() << part2 << youtube["snippet"]["title"].asCString() << part3;
 
-    H::addCorsHeaders(response);
     response.send(Http::Code::Ok,ss.str(),MIME(Image,Svg));
 }
 
@@ -266,7 +264,6 @@ void ChannelController::updateVideo(const Rest::Request &request, Http::Response
 
     lastChange = ms;
 
-    H::addCorsHeaders(response);
     response.send(Http::Code::Ok);
 
 }

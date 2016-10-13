@@ -12,6 +12,7 @@ set(SOURCE_FILES main.cpp
         jwt/Certificate.cpp
         jwt/Token.cpp
         jwt/TokenVerifier.cpp
+        middleware/CorsMiddleware.cpp
         requests/BaseRequest.cpp
         requests/AddVideoRequest.cpp
         requests/UpdateChannelRequest.cpp

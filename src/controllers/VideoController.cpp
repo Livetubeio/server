@@ -42,7 +42,6 @@ void VideoController::create(const Rest::Request &request, Net::Http::ResponseWr
     AddVideoRequest videoRequest{channel,body["ytid"].GetString()};
     videoRequest.executeAsync();
 
-    H::addCorsHeaders(response);
     response.send(Http::Code::Ok);
 
     videoRequest.join();
@@ -65,7 +64,6 @@ void VideoController::remove(const Rest::Request &request, Net::Http::ResponseWr
     DeleteVideoRequest deleteVideoRequest{channel,video};
     deleteVideoRequest.executeAsync();
 
-    H::addCorsHeaders(response);
     response.send(Http::Code::Ok);
 
     deleteVideoRequest.join();
