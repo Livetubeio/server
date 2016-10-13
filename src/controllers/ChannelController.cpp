@@ -68,13 +68,11 @@ void ChannelController::update(const Rest::Request &request, Http::ResponseWrite
         updateChannelRequest.setActive(document["active"].GetString());
     }
 
-    if(document.HasMember("changed_at")) {
-        updateChannelRequest.setChangedAt(document["changed_at"].GetInt64());
-    }
-
     if(document.HasMember("video_time")) {
         updateChannelRequest.setVideoTime(document["video_time"].GetInt());
     }
+
+    updateChannelRequest.setChangedAt(H::getTimestamp());
 
     updateChannelRequest.executeAsync();
 

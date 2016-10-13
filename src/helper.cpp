@@ -78,6 +78,13 @@ namespace H {
         return decoded;
     }
 
+    long getTimestamp() {
+        auto ms = std::chrono::duration_cast< std::chrono::milliseconds >(
+                std::chrono::system_clock::now().time_since_epoch()
+        );
+        return ms.count();
+    }
+
     long getSecondsFromYoutubeTime(std::string youtubeTime) {
         std::smatch match;
         std::vector<std::string> matches;
