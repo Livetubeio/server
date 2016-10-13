@@ -7,6 +7,7 @@
 #include "controllers/LoginController.h"
 #include "header/XGithubAuth.h"
 #include "header/XLiveTubeAuth.h"
+#include "middleware/CorsMiddleware.h"
 #include "Router.h"
 
 #include <rapidjson/document.h>
@@ -24,6 +25,8 @@ void Router::init(size_t thr) {
 void Router::start() {
     Net::Http::Header::Registry::registerHeader<XGithubAuth>();
     Net::Http::Header::Registry::registerHeader<XLiveTubeAuth>();
+    // Add middleware
+    router.registerMiddleware<CorsMiddleware>();
     httpEndpoint->setHandler(router.handler());
     httpEndpoint->serve();
 }
@@ -57,7 +60,6 @@ void Router::setupRoutes() {
 
 void Router::handleOptions(const Rest::Request &request, Http::ResponseWriter response) {
 
-    H::addCorsHeaders(response);
     response.send(Http::Code::Ok);
 }
 
@@ -80,6 +82,5 @@ void Router::serverTime(const Rest::Request &request, Http::ResponseWriter respo
     Writer<StringBuffer> writer(stringBuffer);
     document.Accept(writer);
 
-    H::addCorsHeaders(response);
     response.send(Http::Code::Ok, stringBuffer.GetString());
 }

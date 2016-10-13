@@ -3,10 +3,6 @@
 //
 
 #include "helper.h"
-#include "header/AccessControlAllowOrigin.h"
-#include "header/AccessControlAllowMethods.h"
-#include "header/AccessControlMaxAge.h"
-#include "header/AccessControlAllowHeaders.h"
 #include <regex>
 #include <algorithm>
 #include <openssl/pem.h>
@@ -80,26 +76,6 @@ namespace H {
         BIO_free_all(b64);
 
         return decoded;
-    }
-
-    void addCorsHeaders(Net::Http::ResponseWriter& response) {
-        response.headers().add(
-                std::make_shared<AccessControlAllowOrigin>(
-                        std::initializer_list<std::string>{"*"})
-        );
-        response.headers().add(
-                std::make_shared<AccessControlAllowMethods>(
-                        std::initializer_list<std::string>{"GET","POST","PUT","DELETE"}
-                )
-        );
-        response.headers().add(
-                std::make_shared<AccessControlMaxAge>(2629744)
-        );
-        response.headers().add(
-                std::make_shared<AccessControlAllowHeaders>(
-                        std::initializer_list<std::string>{"X-LIVETUBE-AUTH","X-GITHUB-AUTH"}
-                )
-        );
     }
 
     long getSecondsFromYoutubeTime(std::string youtubeTime) {
