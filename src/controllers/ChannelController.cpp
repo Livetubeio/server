@@ -221,21 +221,20 @@ void ChannelController::updateVideo(const Rest::Request &request, Http::Response
     }
 
     offset -= H::getSecondsFromYoutubeTime(it->value.GetObject()["length"].GetString())*1000;
-    if(offset < 3000) {
+    if(offset <= -3000) {
         // Still playing current song
         response.send(Http::Code::Bad_Request);
         return;
     }
     it++;
 
-    // 3 seconds buffer
-    while(offset > 3000) {
+    while(offset > 0) {
         if(it != end) {
             auto& video = *it;
             // length in ms
             auto length = H::getSecondsFromYoutubeTime(video.value.GetObject()["length"].GetString())*1000;
             offset -= length;
-            if(offset < 3000) {
+            if(offset <= 0) {
                 break;
             }
             it++;
