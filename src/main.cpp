@@ -5,11 +5,11 @@
 #include "Router.h"
 
 int main(int argc, char **argv) {
-    Net::Address addr(Net::Ipv4::any(), Net::Port(8080));
+    Net::Address addr("127.0.0.1", Net::Port(9080));
     google::InitGoogleLogging(argv[0]);
 
     Router router(addr);
-    router.init(6);
+    router.init();
     router.start();
 
     router.shutdown();

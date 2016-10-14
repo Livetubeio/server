@@ -16,7 +16,6 @@
 using namespace rapidjson;
 
 void VideoController::create(const Rest::Request &request, Net::Http::ResponseWriter response) {
-
     auto channel = request.param(":id").as<std::string>();
 
     auto headers = request.headers();
@@ -28,7 +27,6 @@ void VideoController::create(const Rest::Request &request, Net::Http::ResponseWr
         response.send(Http::Code::Bad_Request);
         return;
     }
-
 
     Document body;
     body.Parse(request.body().c_str());

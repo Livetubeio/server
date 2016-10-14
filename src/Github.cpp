@@ -10,9 +10,12 @@
 #include <unordered_map>
 
 std::unordered_map<std::string,std::vector<std::string>> channelMap{};
+std::mutex mutex;
 
 bool Github::userOwnsChannel(const std::string &channel) {
     using namespace rapidjson;
+
+    std::lock_guard<std::mutex> lock(mutex);
 
     auto channels = channelMap.find(uid);
     if(channels != end(channelMap)) {
@@ -78,6 +81,8 @@ void Github::updateCache(std::vector<std::string>& channels) {
 }
 
 void Github::updateCache() {
+    std::lock_guard<std::mutex> lock(mutex);
+
     auto channels = channelMap.find(uid);
     if(channels != end(channelMap)) {
         channels->second = std::vector<std::string>();
