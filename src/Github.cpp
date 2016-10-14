@@ -15,18 +15,16 @@ std::mutex mutex;
 bool Github::userOwnsChannel(const std::string &channel) {
     using namespace rapidjson;
 
-    std::lock_guard<std::mutex> lock(mutex);
-
     auto channels = channelMap.find(uid);
     if(channels != end(channelMap)) {
         auto pos = find(begin(channels->second),end(channels->second),channel);
         if(pos != end(channels->second)) {
             return true;
         }
-    } else {
-        auto it = channelMap.insert(std::pair<std::string,std::vector<std::string>>(uid, std::vector<std::string>()));
-        channels = it.first;
     }
+    std::lock_guard<std::mutex> lock(mutex);
+    auto it = channelMap.insert(std::pair<std::string,std::vector<std::string>>(uid, std::vector<std::string>()));
+    channels = it.first;
 
     updateCache(channels->second);
 
