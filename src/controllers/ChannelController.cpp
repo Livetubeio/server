@@ -6,6 +6,7 @@
 #include "header/XLiveTubeAuth.h"
 #include "header/XGithubAuth.h"
 #include "requests/UpdateChannelRequest.h"
+#include "services/VideoService.h"
 #include "YoutubeService.h"
 #include "APICredential.h"
 #include <rapidjson/document.h>
@@ -105,52 +106,21 @@ constexpr static const char* part3 = "</text>\n"
         "</svg>";
 
 void ChannelController::getBadge(const Rest::Request &request, Http::ResponseWriter response) {
+    using namespace rapidjson;
+    typedef rapidjson::GenericMemberIterator<false, rapidjson::UTF8<>, rapidjson::MemoryPoolAllocator<>> iterator;
+
     auto channel = request.param(":id").as<std::string>();
 
-    std::stringstream request1;
-    request1 << "https://livetubeio-16323.firebaseio.com/channels/" << channel << ".json";
-
-    auto res = cpr::Get(cpr::Url{request1.str()});
-    if(res.status_code != 200) {
+    VideoService service;
+    bool res;
+    iterator it;
+    std::tie(res, it) = service.getNextVideo(channel);
+    if(!res) {
         response.send(Http::Code::Bad_Request);
-        return;
     }
-
-    Document document;
-    document.Parse(res.text.c_str());
-
-    if(!document.IsObject() || !document.HasMember("active") || !document["active"].IsString() ||
-            !document.HasMember("videos") || !document["videos"].IsObject()) {
-        response.send(Http::Code::Bad_Request);
-        return;
-    }
-
-    auto activeString = document["active"].GetString();
-    if(!document["videos"].GetObject().HasMember(activeString)) {
-        response.send(Http::Code::Bad_Request);
-        return;
-    }
-    auto ytid = document["videos"].GetObject()[activeString].GetObject()["ytid"].GetString();
-
-    std::string parts = "snippet";
-    auto credential = std::make_unique<APICredential>();
-    std::unique_ptr<VideosResource_ListMethod> listMethod(
-            YoutubeService::service()->get_videos().NewListMethod(credential.get(), parts));
-
-    listMethod->set_id(ytid);
-
-    std::unique_ptr<VideoListResponse> videoList(VideoListResponse::New());
-
-    listMethod->ExecuteAndParseResponse(videoList.get()).IgnoreError();
-    if(!videoList->has_items()) {
-        response.send(Http::Code::Internal_Server_Error);
-        return;
-    }
-
-    auto youtube = videoList->Storage()["items"][0];
 
     std::stringstream ss;
-    ss << part1 << youtube["snippet"]["title"].asCString() << part2 << youtube["snippet"]["title"].asCString() << part3;
+    ss << part1 << it->value.GetObject()["title"].GetString() << part2 << it->value.GetObject()["title"].GetString() << part3;
 
     response.send(Http::Code::Ok,ss.str(),MIME(Image,Svg));
 }
@@ -168,97 +138,12 @@ void ChannelController::updateVideo(const Rest::Request &request, Http::Response
     }
     auto channel = request.param(":id").as<std::string>();
 
-    std::stringstream url;
-    url << "https://livetubeio-16323.firebaseio.com/channels/" << channel << ".json";
-    auto res = cpr::Get(cpr::Url{url.str()});
-    if(res.status_code != 200) {
+    VideoService service;
+    bool res;
+    std::tie(res, ignore) = service.getNextVideo(channel);
+    if(!res) {
         response.send(Http::Code::Bad_Request);
-        return;
     }
-
-    Document document;
-    document.Parse(res.text.c_str());
-
-    if(!document.IsObject() || !document.HasMember("videos") || !document["videos"].IsObject() ||
-            !document.HasMember("changed_at") || !document["changed_at"].IsInt64() ||
-            !document.HasMember("video_time") || !document["video_time"].IsInt() ||
-            !document.HasMember("active") || !document["active"].IsString() ||
-            !document.HasMember("playerstate") || !document["playerstate"].IsInt()) {
-        response.send(Http::Code::Bad_Request);
-        return;
-    }
-
-    UpdateChannelRequest::State playerState = static_cast<UpdateChannelRequest::State>(
-            document["playerstate"].GetInt()
-    );
-    if(playerState != UpdateChannelRequest::State::PLAYING) {
-        response.send(Http::Code::Bad_Request);
-        return;
-    }
-
-    // Variable Initialization
-    ms = std::chrono::duration_cast< std::chrono::milliseconds >(
-            std::chrono::system_clock::now().time_since_epoch()
-    );
-
-    auto changedAt = document["changed_at"].GetInt64();
-    auto videoTime = document["video_time"].GetInt();
-    auto offset = ms.count() - changedAt + videoTime*1000;
-    auto active = document["active"].GetString();
-    auto it = document["videos"].GetObject().MemberBegin();
-    auto end = document["videos"].GetObject().MemberEnd();
-    auto start = it;
-
-    // Get active Startpoint
-    for(;;it++) {
-        if(it == end) {
-            response.send(Http::Code::Bad_Request);
-            return;
-        }
-        if(strcmp(it->name.GetString(),active) == 0) {
-            break;
-        }
-    }
-
-    offset -= H::getSecondsFromYoutubeTime(it->value.GetObject()["length"].GetString())*1000;
-    if(offset <= -3000) {
-        // Still playing current song
-        response.send(Http::Code::Bad_Request);
-        return;
-    }
-    it++;
-
-    while(offset > 0) {
-        if(it != end) {
-            auto& video = *it;
-            // length in ms
-            auto length = H::getSecondsFromYoutubeTime(video.value.GetObject()["length"].GetString())*1000;
-            offset -= length;
-            if(offset <= 0) {
-                break;
-            }
-            it++;
-        } else {
-            it = start;
-        }
-    }
-
-    // decided on new video create a request
-    ms = std::chrono::duration_cast< std::chrono::milliseconds >(
-            std::chrono::system_clock::now().time_since_epoch()
-    );
-    UpdateChannelRequest channelRequest{channel};
-    channelRequest.setChangedAt(ms.count());
-    if(offset < 0) {
-        channelRequest.setVideoTime(static_cast<int>(H::getSecondsFromYoutubeTime(it->value.GetObject()["length"].GetString())-offset/1000*-1));
-    } else {
-        channelRequest.setVideoTime(0);
-    }
-    channelRequest.setActive(it->name.GetString());
-    channelRequest.executeAsync();
-    // Hacky synchronization
-    channelRequest.join();
-
     lastChange = ms;
 
     response.send(Http::Code::Ok);

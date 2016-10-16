@@ -17,6 +17,7 @@ set(SOURCE_FILES main.cpp
         requests/AddVideoRequest.cpp
         requests/UpdateChannelRequest.cpp
         requests/DeleteVideoRequest.cpp
+        services/VideoService.cpp
         )
 
 add_executable(LivePlaylist ${SOURCE_FILES})
