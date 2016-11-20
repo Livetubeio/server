@@ -112,11 +112,11 @@ void ChannelController::getBadge(const Rest::Request &request, Http::ResponseWri
     auto channel = request.param(":id").as<std::string>();
 
     VideoService service;
-    bool res;
     iterator it;
-    std::tie(res, it) = service.getNextVideo(channel);
-    if(!res) {
+    std::tie(ignore, it) = service.getNextVideo(channel);
+    if(!it->value.IsObject()) {
         response.send(Http::Code::Bad_Request);
+        return;
     }
 
     std::stringstream ss;

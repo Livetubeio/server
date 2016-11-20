@@ -36,10 +36,7 @@ VideoService::getNextVideo(const std::string &channel) {
     UpdateChannelRequest::State playerState = static_cast<UpdateChannelRequest::State>(
             channelData["playerstate"].GetInt()
     );
-    if(playerState != UpdateChannelRequest::State::PLAYING) {
-        return std::make_pair<bool, iterator>(false, channelData.GetObject().MemberBegin());
-    }
-
+    bool playing = playerState == UpdateChannelRequest::State::PLAYING;
     // Variable Initialization
     auto ms = H::getTimestamp();
 
@@ -61,10 +58,14 @@ VideoService::getNextVideo(const std::string &channel) {
         }
     }
 
+    if(!playing) {
+        return std::make_pair<bool, iterator>(std::move(playing), std::move(it));
+    }
+
     offset -= H::getSecondsFromYoutubeTime(it->value.GetObject()["length"].GetString())*1000;
     if(offset <= -3000) {
         // Still playing current song
-        return std::make_pair<bool, iterator>(true, std::move(it));
+        return std::make_pair<bool, iterator>(std::move(playing), std::move(it));
     }
     it++;
 
@@ -96,5 +97,5 @@ VideoService::getNextVideo(const std::string &channel) {
     channelRequest.executeAsync();
     // Hacky synchronization
     channelRequest.join();
-    return std::make_pair<bool, iterator>(true, std::move(it));
+    return std::make_pair<bool, iterator>(std::move(playing), std::move(it));
 }
