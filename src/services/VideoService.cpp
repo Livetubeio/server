@@ -93,9 +93,10 @@ VideoService::getNextVideo(const std::string &channel) {
     } else {
         channelRequest.setVideoTime(0);
     }
+    channelRequest.setState(UpdateChannelRequest::State::PLAYING);
     channelRequest.setActive(it->name.GetString());
     channelRequest.executeAsync();
-    // Hacky synchronization
+    // TODO: Hacky synchronization
     channelRequest.join();
     return std::make_pair<bool, iterator>(std::move(playing), std::move(it));
 }

@@ -1,5 +1,7 @@
 add_subdirectory(google-api-cpp-client)
 
+set(RAPIDJSON_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/rapidjson/include CACHE INTERNAL "")
+
 set(PISTACHE_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/pistache/include CACHE INTERNAl "")
 add_subdirectory(pistache)
 
@@ -9,8 +11,6 @@ if(CURL_FOUND)
 endif()
 set(BUILD_CPR_TESTS OFF CACHE BOOL "Don't build cpr tests")
 add_subdirectory(cpr)
-
-set(RAPIDJSON_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/rapidjson/include CACHE INTERNAL "")
 
 add_subdirectory(libjwt)
 set(LIBJWT_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/libjwt/include CACHE INTERNAL "")

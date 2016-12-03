@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.2)
 project(LivePlaylist)
 
 set(CMAKE_CXX_STANDARD 14)
-
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_subdirectory(opt)
 
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/include)
