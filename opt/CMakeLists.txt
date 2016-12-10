@@ -2,6 +2,9 @@ add_subdirectory(google-api-cpp-client)
 
 set(RAPIDJSON_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/rapidjson/include CACHE INTERNAL "")
 
+add_subdirectory(socket.io-client-cpp)
+set(SOCKETIO_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/socket.io-client-cpp/src CACHE INTERNAL "")
+
 set(PISTACHE_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/pistache/include CACHE INTERNAl "")
 add_subdirectory(pistache)
 

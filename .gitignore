@@ -26,3 +26,4 @@ massif-*
 *.dir/
 
 Makefile
+node_modules

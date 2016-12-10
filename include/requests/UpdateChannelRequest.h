@@ -6,6 +6,7 @@
 #define LIVEPLAYLIST_UPDATECHANNELREQUEST_H
 
 #include <string>
+#include <sstream>
 #include "BaseRequest.h"
 
 class UpdateChannelRequest : public BaseRequest {
@@ -31,7 +32,6 @@ private:
     bool hasVideoTime = false;
     long changedAt;
     bool hasChangedAt = false;
-    constexpr static const char* url = "https://livetubeio-16323.firebaseio.com/channels/";
 };
 
 

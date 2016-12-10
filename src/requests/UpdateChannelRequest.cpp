@@ -6,14 +6,12 @@
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 #include <cpr/cpr.h>
-#include <sstream>
+#include <sio_client.h>
+#include <services/SocketIOService.h>
 #include "requests/UpdateChannelRequest.h"
 
 void UpdateChannelRequest::execute() {
     using namespace rapidjson;
-
-    std::stringstream ss;
-    ss << UpdateChannelRequest::url << this->channel << ".json";
 
     Document document;
     document.SetObject();
@@ -21,13 +19,13 @@ void UpdateChannelRequest::execute() {
     if(this->hasState) {
         Value value;
         value.SetInt(static_cast<int>(this->state));
-        document.AddMember(StringRef("playerstate"), value, document.GetAllocator());
+        document.AddMember(StringRef("playerstate"),value, document.GetAllocator());
     }
 
     if(this->hasActive) {
-        Value active;
-        active.SetString(StringRef(this->active.c_str()));
-        document.AddMember(StringRef("active"), active, document.GetAllocator());
+        Value value;
+        value.SetString(StringRef(active.c_str()));
+        document.AddMember(StringRef("active"),value, document.GetAllocator());
     }
 
     if(this->hasVideoTime) {
@@ -46,7 +44,14 @@ void UpdateChannelRequest::execute() {
     Writer<StringBuffer> writer(buffer);
     document.Accept(writer);
 
-    auto r = cpr::Patch(cpr::Url{ss.str()},cpr::Body{buffer.GetString()});
+    std::stringstream ss;
+    ss << "channels/" << channel;
+
+    sio::message::list list{};
+    list.push(sio::string_message::create(ss.str()));
+    list.push(sio::string_message::create(buffer.GetString()));
+
+    SocketIOService::instance().socket()->emit("updateChannel", list);
 }
 
 void UpdateChannelRequest::setState(const UpdateChannelRequest::State &state) {

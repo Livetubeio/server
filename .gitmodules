@@ -13,3 +13,6 @@
 [submodule "opt/rapidjson"]
 	path = opt/rapidjson
 	url = https://github.com/miloyip/rapidjson
+[submodule "opt/socket.io-client-cpp"]
+	path = opt/socket.io-client-cpp
+	url = https://github.com/socketio/socket.io-client-cpp.git

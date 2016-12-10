@@ -18,6 +18,7 @@ set(SOURCE_FILES main.cpp
         requests/UpdateChannelRequest.cpp
         requests/DeleteVideoRequest.cpp
         services/VideoService.cpp
+        services/SocketIOService.cpp
         )
 
 add_executable(LivePlaylist ${SOURCE_FILES})
@@ -26,6 +27,7 @@ target_link_libraries(LivePlaylist
         ${CPR_LIBRARIES}
         ${GOOGLE_LIBRARIES}
         ${LIBJWT_LIBRARIES}
+        sioclient
         jansson
         jsoncpp
         glog
