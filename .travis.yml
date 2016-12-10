@@ -2,21 +2,21 @@ language: cpp
 sudo: required
 dist: xenial
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y cmake build-essential curl libgoogle-glog-dev libjansson-dev libjsoncpp-dev libcurl4-gnutls-dev libgflags-dev openssl libssl-dev
-  - sudo ln -sf /usr/include/jsoncpp/json /usr/include/json
-addons:
-  apt:
-    sources:
-      - llvm-toolchain-precise
-      - ubuntu-toolchain-r-test
-    packages:
-      - clang-3.7
-      - g++-5
-      - gcc-5
+  # g++4.8.1
+  - if [ "$CXX" == "g++" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
+
+  # clang 3.4
+  - if [ "$CXX" == "clang++" ]; then sudo add-apt-repository -y ppa:h-rayflood/llvm; fi
+  - sudo apt-get update -qq
 install:
-    - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
-    - if [ "$CXX" = "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7"; fi
+    - sudo apt-get install -y cmake build-essential curl libgoogle-glog-dev libjansson-dev libjsoncpp-dev libcurl4-gnutls-dev libgflags-dev openssl libssl-dev
+    - sudo ln -sf /usr/include/jsoncpp/json /usr/include/json
+
+    - if [ "$CXX" == "g++" ]; then sudo apt-get install -qq g++-5 gcc-5; fi
+    - if [ "$CXX" == "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
+    
+    - if [ "$CXX" == "clang++" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.7; fi
+    - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7"; fi
 script: cmake . && make
 compiler:
     - gcc
