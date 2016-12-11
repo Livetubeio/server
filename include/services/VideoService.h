@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 16.10.16.
-//
-
 #ifndef LIVEPLAYLIST_VIDEOSERVICE_H
 #define LIVEPLAYLIST_VIDEOSERVICE_H
 
@@ -17,4 +13,4 @@ private:
 };
 
 
-#endif //LIVEPLAYLIST_VIDEOSERVICE_H
+#endif

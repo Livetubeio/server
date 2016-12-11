@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 02.10.16.
-//
-
 #ifndef LIVEPLAYLIST_ACCESSCONTROLALLOWMETHODS_H
 #define LIVEPLAYLIST_ACCESSCONTROLALLOWMETHODS_H
 
@@ -39,6 +35,5 @@ public:
 private:
     std::vector<std::string> methods;
 };
-
 
 #endif

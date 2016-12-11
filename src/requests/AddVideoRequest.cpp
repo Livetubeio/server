@@ -1,9 +1,5 @@
-//
-// Created by stevijo on 30.09.16.
-//
-
 #include "requests/AddVideoRequest.h"
-#include "YoutubeService.h"
+#include "services/YoutubeService.h"
 #include "APICredential.h"
 #include <google/youtube_api/you_tube_service.h>
 #include <thread>

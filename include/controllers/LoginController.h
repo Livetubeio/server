@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 05.10.16.
-//
-
 #ifndef LIVEPLAYLIST_LOGINCONTROLLER_H
 #define LIVEPLAYLIST_LOGINCONTROLLER_H
 
@@ -10,6 +6,11 @@
 
 using namespace Net;
 
+/**
+ * The LoginController is the controller responsible
+ * for login routes
+ *
+ */
 class LoginController : public BaseController<LoginController> {
 public:
 
@@ -18,4 +19,4 @@ public:
 };
 
 
-#endif //LIVEPLAYLIST_LOGINCONTROLLER_H
+#endif

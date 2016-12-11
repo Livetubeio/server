@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 10.12.16.
-//
-
 #include "services/SocketIOService.h"
 
 SocketIOService& SocketIOService::instance() {

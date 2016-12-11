@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 28.09.16.
-//
-
 #ifndef LIVEPLAYLIST_ROUTER_H
 #define LIVEPLAYLIST_ROUTER_H
 
@@ -25,5 +21,4 @@ private:
     void setupRoutes();
 };
 
-
-#endif //LIVEPLAYLIST_ROUTER_H
+#endif

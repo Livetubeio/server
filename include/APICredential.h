@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 29.09.16.
-//
-
 #ifndef LIVEPLAYLIST_APICREDENTIAL_H
 #define LIVEPLAYLIST_APICREDENTIAL_H
 
@@ -29,5 +25,4 @@ private:
     std::string key;
 };
 
-
-#endif //LIVEPLAYLIST_APICREDENTIAL_H
+#endif

@@ -1,9 +1,5 @@
-//
-// Created by stevijo on 28.09.16.
-//
-
-#ifndef LIVEPLAYLIST_SONGCONTROLLER_H
-#define LIVEPLAYLIST_SONGCONTROLLER_H
+#ifndef LIVEPLAYLIST_VIDEOCONTROLLER_H
+#define LIVEPLAYLIST_VIDEOCONTROLLER_H
 
 #include <endpoint.h>
 #include <router.h>
@@ -11,6 +7,11 @@
 
 using namespace Net;
 
+/**
+ * The VideoController is the controller responsible
+ * for video routes
+ *
+ */
 class VideoController : public BaseController<VideoController> {
 public:
 
@@ -21,4 +22,4 @@ public:
 };
 
 
-#endif //LIVEPLAYLIST_SONGCONTROLLER_H
+#endif

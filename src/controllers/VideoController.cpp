@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 28.09.16.
-//
-
 #include "helper.h"
 #include "header/XLiveTubeAuth.h"
 #include "header/XGithubAuth.h"
@@ -10,7 +6,7 @@
 #include "controllers/VideoController.h"
 #include "jwt/Token.h"
 #include <rapidjson/document.h>
-#include "Github.h"
+#include "services/GithubService.h"
 #include <algorithm>
 
 using namespace rapidjson;

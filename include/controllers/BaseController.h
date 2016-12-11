@@ -1,12 +1,14 @@
-//
-// Created by stevijo on 28.09.16.
-//
-
 #ifndef LIVEPLAYLIST_BASECONTROLLER_H
 #define LIVEPLAYLIST_BASECONTROLLER_H
 
 #include <string>
 
+/**
+ * The BaseController is the base class for Controller
+ * A controller contains a collection of methods for handling the request of one Route
+ *
+ * @tparam T
+ */
 template<typename T>
 class BaseController {
 public:

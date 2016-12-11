@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 05.10.16.
-//
-
 #include <iosfwd>
 #include <sstream>
 #include <cpr/cpr.h>

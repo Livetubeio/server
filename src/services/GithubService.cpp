@@ -1,8 +1,4 @@
-//
-// Created by stevijo on 04.10.16.
-//
-
-#include "Github.h"
+#include "services/GithubService.h"
 #include <cpr/cpr.h>
 #include <rapidjson/document.h>
 #include <algorithm>
@@ -12,7 +8,7 @@
 std::unordered_map<std::string,std::vector<std::string>> channelMap{};
 std::mutex mutex;
 
-bool Github::userOwnsChannel(const std::string &channel) {
+bool GithubService::userOwnsChannel(const std::string &channel) {
     using namespace rapidjson;
 
     auto channels = channelMap.find(uid);
@@ -34,7 +30,7 @@ bool Github::userOwnsChannel(const std::string &channel) {
 
 
 
-void Github::updateCache(std::vector<std::string>& channels) {
+void GithubService::updateCache(std::vector<std::string>& channels) {
     using namespace rapidjson;
 
     auto result = cpr::Get(cpr::Url{"https://api.github.com/user"},
@@ -78,7 +74,7 @@ void Github::updateCache(std::vector<std::string>& channels) {
 
 }
 
-void Github::updateCache() {
+void GithubService::updateCache() {
     std::lock_guard<std::mutex> lock(mutex);
 
     auto channels = channelMap.find(uid);

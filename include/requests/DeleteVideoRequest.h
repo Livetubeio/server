@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 05.10.16.
-//
-
 #ifndef LIVEPLAYLIST_DELETEVIDEOREQUEST_H
 #define LIVEPLAYLIST_DELETEVIDEOREQUEST_H
 
@@ -20,5 +16,4 @@ private:
 
 };
 
-
-#endif //LIVEPLAYLIST_DELETEVIDEOREQUEST_H
+#endif

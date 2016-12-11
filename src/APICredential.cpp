@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 29.09.16.
-//
-
 #include <string>
 #include <iostream>
 #include <googleapis/util/status.h>

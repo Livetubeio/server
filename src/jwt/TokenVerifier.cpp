@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 04.10.16.
-//
-
 #include "jwt/TokenVerifier.h"
 #include "helper.h"
 #include "jwt/CertificatesStore.h"

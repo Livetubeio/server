@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 28.09.16.
-//
-
 #include "helper.h"
 #include <regex>
 #include <algorithm>

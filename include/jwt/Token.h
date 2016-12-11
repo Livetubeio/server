@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 04.10.16.
-//
-
 #ifndef LIVEPLAYLIST_TOKEN_H
 #define LIVEPLAYLIST_TOKEN_H
 
@@ -10,14 +6,13 @@
 #include <jwt.h>
 #include <string>
 
+/**
+ * Wrapper class for jwt token
+ */
 class Token {
 public:
     Token(const std::string& token) : token(token) {}
-    ~Token() {
-        if(jwt_token != NULL) {
-            jwt_free(jwt_token);
-        }
-    }
+    ~Token();
     Token(Token&& token) = delete;
     Token(const Token&) = delete;
     Token& operator=(const Token& token) = delete;
@@ -29,4 +24,4 @@ private:
     jwt_t* jwt_token;
 };
 
-#endif //LIVEPLAYLIST_TOKEN_H
+#endif

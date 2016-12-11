@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 28.09.16.
-//
-
 #ifndef LIVEPLAYLIST_HELPER_H
 #define LIVEPLAYLIST_HELPER_H
 
@@ -26,6 +22,4 @@ namespace H {
     long getSecondsFromYoutubeTime(std::string youtubeTime);
 }
 
-
-
-#endif //LIVEPLAYLIST_HELPER_H
+#endif

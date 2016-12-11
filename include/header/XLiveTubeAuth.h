@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 02.10.16.
-//
-
 #ifndef LIVEPLAYLIST_XLIVETUBEAUTH_H
 #define LIVEPLAYLIST_XLIVETUBEAUTH_H
 
@@ -32,4 +28,4 @@ private:
 };
 
 
-#endif //LIVEPLAYLIST_ACCESSCONTROLALLOWORIGIN_H
+#endif

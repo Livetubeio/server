@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 05.10.16.
-//
-
 #ifndef LIVEPLAYLIST_UPDATECHANNELREQUEST_H
 #define LIVEPLAYLIST_UPDATECHANNELREQUEST_H
 
@@ -35,4 +31,4 @@ private:
 };
 
 
-#endif //LIVEPLAYLIST_UPDATECHANNELREQUEST_H
+#endif

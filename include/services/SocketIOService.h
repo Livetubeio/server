@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 10.12.16.
-//
-
 #ifndef LIVEPLAYLIST_SOCKETIOSERVICE_H
 #define LIVEPLAYLIST_SOCKETIOSERVICE_H
 
@@ -17,4 +13,4 @@ private:
 };
 
 
-#endif //LIVEPLAYLIST_SOCKETIOSERVICE_H
+#endif

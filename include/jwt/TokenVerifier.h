@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 04.10.16.
-//
-
 #ifndef LIVEPLAYLIST_TOKENVERIFIER_H
 #define LIVEPLAYLIST_TOKENVERIFIER_H
 
@@ -10,6 +6,9 @@
 
 class Token;
 
+/**
+ * Class responsible for verifying an JWT Token
+ */
 class TokenVerifier {
     friend class Token;
     TokenVerifier(Token& token) : token(token) {}
@@ -17,5 +16,4 @@ class TokenVerifier {
     Token& token;
 };
 
-
-#endif //LIVEPLAYLIST_TOKENVERIFIER_H
+#endif

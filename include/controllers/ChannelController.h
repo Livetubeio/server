@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 01.10.16.
-//
-
 #ifndef LIVEPLAYLIST_CHANNELCONTROLLER_H
 #define LIVEPLAYLIST_CHANNELCONTROLLER_H
 
@@ -14,6 +10,11 @@
 
 using namespace Net;
 
+/**
+ * The ChannelController is the controller responsible
+ * for channel routes
+ *
+ */
 class ChannelController : public BaseController<ChannelController> {
 public:
 
@@ -31,4 +32,4 @@ private:
 };
 
 
-#endif //LIVEPLAYLIST_CHANNELCONTROLLER_H
+#endif

@@ -1,12 +1,13 @@
-//
-// Created by stevijo on 01.10.16.
-//
-
 #ifndef LIVEPLAYLIST_BASEREQUEST_H
 #define LIVEPLAYLIST_BASEREQUEST_H
 
 #include "ThreadPool.h"
 
+/**
+ * Base class for request which also handles asynchronous
+ * execution of a server initiated request
+ *
+ */
 class BaseRequest {
 public:
     void join();
@@ -17,4 +18,4 @@ protected:
 };
 
 
-#endif //LIVEPLAYLIST_BASEREQUEST_H
+#endif

@@ -6,8 +6,6 @@ set(SOURCE_FILES main.cpp
         controllers/LoginController.cpp
         helper.cpp
         APICredential.cpp
-        YoutubeService.cpp
-        Github.cpp
         jwt/CertificatesStore.cpp
         jwt/Certificate.cpp
         jwt/Token.cpp
@@ -19,6 +17,8 @@ set(SOURCE_FILES main.cpp
         requests/DeleteVideoRequest.cpp
         services/VideoService.cpp
         services/SocketIOService.cpp
+        services/GithubService.cpp
+        services/YoutubeService.cpp
         )
 
 add_executable(LivePlaylist ${SOURCE_FILES})

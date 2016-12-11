@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 02.10.16.
-//
-
 #ifndef LIVEPLAYLIST_ACCESSCONTROLMAXAGE_H
 #define LIVEPLAYLIST_ACCESSCONTROLMAXAGE_H
 

@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 03.10.16.
-//
-
 #include "jwt/Certificate.h"
 #include <openssl/pem.h>
 #include <cstring>

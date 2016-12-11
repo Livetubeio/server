@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 03.10.16.
-//
-
 #ifndef LIVEPLAYLIST_CERTIFICATESSTORE_H
 #define LIVEPLAYLIST_CERTIFICATESSTORE_H
 
@@ -12,12 +8,12 @@
 #include <atomic>
 #include <condition_variable>
 
+/**
+ * Class responsible for holding certificates for the jwt token verification process
+ */
 class CertificatesStore {
 public:
-    static CertificatesStore& instance() {
-        static CertificatesStore certificates;
-        return certificates;
-    }
+    static CertificatesStore& instance();
     bool hasCertificate(const std::string& keyId);
     Certificate& getCertificate(const std::string& keyId);
 private:

@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 04.10.16.
-//
-
 #ifndef LIVEPLAYLIST_GITHUB_H
 #define LIVEPLAYLIST_GITHUB_H
 
@@ -9,9 +5,9 @@
 #include <vector>
 #include <map>
 
-class Github {
+class GithubService {
 public:
-    Github(const std::string& token, const std::string& uid) : token(token), uid(uid) {}
+    GithubService(const std::string& token, const std::string& uid) : token(token), uid(uid) {}
     void updateCache();
     void updateCache(std::vector<std::string>& channels);
     bool userOwnsChannel(const std::string& channel);
@@ -21,4 +17,4 @@ private:
 };
 
 
-#endif //LIVEPLAYLIST_GITHUB_H
+#endif

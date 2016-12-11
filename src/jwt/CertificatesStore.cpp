@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 03.10.16.
-//
-
 #include "jwt/CertificatesStore.h"
 #include "jwt/Certificate.h"
 #include <algorithm>
@@ -37,4 +33,9 @@ Certificate& CertificatesStore::getCertificate(const std::string &keyId) {
         cv.wait(lock);
     }
     return certificates[keyId];
+}
+
+CertificatesStore &CertificatesStore::instance() {
+    static CertificatesStore certificates;
+    return certificates;
 }

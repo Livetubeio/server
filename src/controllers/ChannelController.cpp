@@ -1,15 +1,10 @@
-//
-// Created by stevijo on 01.10.16.
-//
-
 #include "controllers/ChannelController.h"
 #include "header/XLiveTubeAuth.h"
 #include "header/XGithubAuth.h"
 #include "requests/UpdateChannelRequest.h"
 #include "services/VideoService.h"
-#include "YoutubeService.h"
+#include "services/YoutubeService.h"
 #include "APICredential.h"
-#include <rapidjson/document.h>
 #include <cpr/cpr.h>
 
 using namespace rapidjson;
@@ -74,7 +69,6 @@ void ChannelController::update(const Rest::Request &request, Http::ResponseWrite
     }
 
     updateChannelRequest.setChangedAt(H::getTimestamp());
-
     updateChannelRequest.executeAsync();
 
     response.send(Http::Code::Ok);

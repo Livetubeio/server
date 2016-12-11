@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 16.10.16.
-//
-
 #include "services/VideoService.h"
 #include "requests/UpdateChannelRequest.h"
 #include "helper.h"

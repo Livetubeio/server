@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 01.10.16.
-//
-
 #ifndef LIVEPLAYLIST_THREADPOOL_H
 #define LIVEPLAYLIST_THREADPOOL_H
 
@@ -25,5 +21,4 @@ private:
     std::vector<std::thread> threads;
 };
 
-
-#endif //LIVEPLAYLIST_THREADPOOL_H
+#endif

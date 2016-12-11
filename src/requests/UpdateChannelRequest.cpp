@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 05.10.16.
-//
-
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>

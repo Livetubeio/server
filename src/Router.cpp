@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 28.09.16.
-//
-
 #include "controllers/VideoController.h"
 #include "controllers/ChannelController.h"
 #include "controllers/LoginController.h"

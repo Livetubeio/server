@@ -1,12 +1,11 @@
-//
-// Created by stevijo on 03.10.16.
-//
-
 #ifndef LIVEPLAYLIST_CERTIFICATE_H
 #define LIVEPLAYLIST_CERTIFICATE_H
 
 #include <string>
 
+/**
+ * Wrapperclass for certificate
+ */
 class Certificate {
 public:
     Certificate() {}
@@ -16,5 +15,4 @@ private:
     std::string certificate;
 };
 
-
-#endif //LIVEPLAYLIST_CERTIFICATE_H
+#endif

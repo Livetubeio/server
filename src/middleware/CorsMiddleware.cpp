@@ -1,7 +1,3 @@
-//
-// Created by stevijo on 13.10.16.
-//
-
 #include "middleware/CorsMiddleware.h"
 #include "header/AccessControlAllowOrigin.h"
 #include "header/AccessControlAllowMethods.h"
